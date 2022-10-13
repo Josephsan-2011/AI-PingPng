@@ -12,6 +12,9 @@ var paddle1Y;
 var playerscore = 0;
 var audio1;
 var pcscore = 0;
+var rightwristX = ""
+var rightwristY = ""
+var score_wrist = 0
 //ball x and y and speedx speed y and radius
 var ball = {
   x: 350 / 2,
@@ -24,17 +27,20 @@ var ball = {
 function setup() {
   var canvas = createCanvas(700, 600);
   canvas.parent("c1")
-  v1=createCapture(VIDEO)
-  v1.size(600, 300)
+  v1 = createCapture(VIDEO)
+  v1.size(700, 600)
+  v1.parent('c1')
+  v1.hide()
   p1 = ml5.poseNet(v1, model_loaded)
   p1.on('pose', got_poses)
 }
 function got_poses(results) {
-  //console.log(results)
+  console.log(results)
   if (results.length > 0) {
-    noseX = results[0].pose.nose.x
-    noseY = results[0].pose.nose.y
-    console.log("nosex=" + noseX + ",nosey=" + noseY)
+    rightwristX = results[0].pose.rightWrist.x
+    rightwristY = results[0].pose.rightWrist.y
+    score_wrist = results[0].pose.rightWrist.confidence
+    //console.log("rightwristX=" + rightwristX + ",rightwristY=" + rightwristY)
   }
 }
 function model_loaded() {
@@ -42,9 +48,9 @@ function model_loaded() {
 }
 
 function draw() {
-
+  
   background(0);
-
+  image(v1,0,0,700,600)
   fill("black");
   stroke("black");
   rect(680, 0, 20, 700);
@@ -52,7 +58,12 @@ function draw() {
   fill("black");
   stroke("black");
   rect(0, 0, 20, 700);
-
+  console.log(score_wrist)
+  if (score_wrist > 0.1) {
+    fill("yellow")
+    stroke("green")
+    circle(rightwristX, rightwristY, 40)
+  }
   //funtion paddleInCanvas call 
   paddleInCanvas();
 
