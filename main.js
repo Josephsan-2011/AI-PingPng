@@ -1,6 +1,6 @@
 
 /*created by prashant shukla */
-
+var game_status = ""
 var paddle2 = 10, paddle1 = 10;
 
 var paddle1X = 10, paddle1Height = 110;
@@ -23,7 +23,10 @@ var ball = {
   dx: 3,
   dy: 3
 }
-
+function startgame() {
+  game_status="start"
+  document.getElementById("status").innerHTML="Game Is Loaded"
+}
 function setup() {
   var canvas = createCanvas(700, 600);
   canvas.parent("c1")
@@ -48,6 +51,8 @@ function model_loaded() {
 }
 
 function draw() {
+  if (game_status=="start") {
+    
   
   background(0);
   image(v1,0,0,700,600)
@@ -91,7 +96,7 @@ function draw() {
 
   //function move call which in very important
   move();
-}
+}}
 
 
 
